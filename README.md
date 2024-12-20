@@ -15,12 +15,12 @@ Vérifie et envoie des ordres prédéfinis aux clients.
 Transmet son identifiant.
 Attend les ordres à exécuter.
 ## Ordres Gérés :
--Ransomware : Chiffrement des fichiers avec une clé générée par le serveur et renvoi du nombre de fichiers chiffrés.
--Exfiltration : Lecture et transmission d'un fichier cible au serveur.
--Fork  : Si le serveur envoie l'ordre exfiltration
+- **Ransomware** : Chiffrement des fichiers avec une clé générée par le serveur et renvoi du nombre de fichiers chiffrés.
+-**Exfiltration** : Lecture et transmission d'un fichier cible au serveur.
+-**Fork**  : Si le serveur envoie l'ordre exfiltration
 Le client lit le contenu d'un fichier sur l'ordinateur de la cible & transmet le text au
 serveur.
--Out: Le Si le serveur envoie l'ordre fork. Le client lance un code.
+-**Out**: Le Si le serveur envoie l'ordre fork. Le client lance un code.
 
 ## Fichiers inclus
 - **client.c** : Implémentation du client.
